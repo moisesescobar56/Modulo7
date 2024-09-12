@@ -173,7 +173,6 @@ ViewBag.Cargos = DropDownListCargos();
 **Resultado:**
 ![image](https://github.com/user-attachments/assets/ddaf62e6-077e-4ea9-ac71-9268a5d6c7d6)
 
-
 **Paso 4:** Iniciar el servidor IIS. 
 
 ![image](https://github.com/user-attachments/assets/6eb19f1c-e99c-4215-bd75-479f6fd1307f)
@@ -222,7 +221,7 @@ ViewBag.Cargos = DropDownListCargos();
 ```
 ![image](https://github.com/user-attachments/assets/056b99e4-1889-4ba9-a931-018e0b8ceeb0)
 
-**Paso 4:** Agregar los filtros de Nombre 
+**Paso 4:** Agregar los filtros de Nombre en el HTML.
 ```razor
 <div class="col-12 col-lg-3 mt-2">
     <label class="form-label fw-bold" for="">Nombre o Apellido:</label>
@@ -239,3 +238,45 @@ ViewBag.Cargos = DropDownListCargos();
     @Html.ActionLink("NUEVO", "Create", null, new { @Class = "btn btn-secondary" })
 </div>
 ```
+
+![image](https://github.com/user-attachments/assets/5d1bfc28-c6e8-49d7-b472-c89072a05869)
+
+**NOTA:** Los **name** de los input deben coincidir con los nombres de las propiedades de la clase utilizada.
+
+**Paso 5:** Iniciar el servidor IIS. 
+
+![image](https://github.com/user-attachments/assets/6eb19f1c-e99c-4215-bd75-479f6fd1307f)
+
+**Paso 6:** Dar clic en la opcion de Empleados del menu.
+![image](https://github.com/user-attachments/assets/276482c0-b3c7-4297-9a5b-963c9c04313a)
+
+**Resultado:**
+![image](https://github.com/user-attachments/assets/869a3446-cda3-4c7e-8258-ebe36694c76a)
+
+**Paso 7:** Seleccionar el cargo **Administrador** y da clic en **BUSCAR**.
+![image](https://github.com/user-attachments/assets/b6b6db3e-3670-41c1-b844-0a3d91e20bf4)
+
+**Resultado**
+![image](https://github.com/user-attachments/assets/beec14f1-08b6-4bce-930e-cd167775d0b0)
+
+**Paso 7:** Detener el servidor IIS.
+![image](https://github.com/user-attachments/assets/cd85f0e0-8342-47b9-9426-ac8337b0cc59)
+
+## PARTE 6 - Cargar LLaves Foraneas y Eliminar Columna Clave
+
+**Paso 1:** Ubicarse en la tabla en el **"@foreach"** y modificar el **DisplayFor** de **"IdCargo"**, cambiarlo por **"Cargo.Nombre"**
+
+![image](https://github.com/user-attachments/assets/7e5c1857-9f12-45ad-aa4b-13d5eeb3b2c7)
+
+**Resultado:**
+![image](https://github.com/user-attachments/assets/9b93410e-077d-4709-94dc-449a67435a68)
+
+**Paso 2:** Ubicarse en la tabla y eliminar la columna **th Clave** y **td Clave**.
+
+![image](https://github.com/user-attachments/assets/3537a513-35e2-4831-914b-d0ad61934766)
+
+**Resultado:**
+![image](https://github.com/user-attachments/assets/668714e8-13d1-4ca6-acb2-388ff671ba54)
+
+## PARTE 7 - Cargar LLaves Foraneas y Eliminar Columna Clave
+
