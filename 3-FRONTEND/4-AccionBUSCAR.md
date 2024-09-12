@@ -77,7 +77,7 @@ Empleado pEmpleado
 ```
 ![image](https://github.com/user-attachments/assets/721a2341-6620-4c3c-9aa8-12a80a34b1a6)
 
-**Paso 4:** Validar que si el parametro es nulo se cree un nuevo objeto vacio.
+**Paso 4:** Validar que cuando el parametro es nulo, se cree un nuevo objeto vacio.
 ```csharp
 if(pEmpleado == null)
 {
@@ -101,7 +101,60 @@ return View(lista);
 
 ![image](https://github.com/user-attachments/assets/502096a0-c251-47ed-9197-7427794fe2f7)
 
-## PARTE 3 - Crear View Index
+## PARTE 3 - Crear DropDownList Cargos (Select o ComboBox)
+
+El DropDownList o Select creara una lista desplegable con la que el usuario podra seleccionar facilmente la opcion que desee.
+
+![image](https://github.com/user-attachments/assets/7bc570ed-277b-488c-ab89-47dec8867e69)
+
+**Paso 1:** Ubicarse despues de la accion final Delete del controlador y abrir un espacio.
+
+![image](https://github.com/user-attachments/assets/e8120405-209c-4642-b97c-059c724352bd)
+
+**Paso 2:** Crear un nuevo metodo que retorne una List<SelectListItem> llamado **"DropDownListCargos"**
+
+```csharp
+public static List<SelectListItem> DropDownListCargos(byte pId = 0)
+{
+
+}
+```
+
+![image](https://github.com/user-attachments/assets/832e86a7-4858-447e-9635-c76191d42c31)
+
+- El parametro **pId** debe ser del mismo tipo que la clase del origen de datos que cargara.
+
+**Paso 3:** Agregar la logica para cargar las opciones de Cargo.
+```csharp
+List<SelectListItem> options = new List<SelectListItem>
+{
+    new SelectListItem { Value = null, Text = "Seleccionar" }
+};
+
+// Buscar registros en la DB
+List<Cargo> lista = new CargoBL().Buscar(new Cargo { });
+
+// Agregar opciones
+options.AddRange(lista.OrderBy(x => x.Nombre).Select(x => new SelectListItem
+{
+    Value = x.IdCargo.ToString(), // PK
+    Text = x.Nombre,
+    Selected = (x.IdCargo == pId),
+}).ToList());
+
+return options;
+```
+
+![image](https://github.com/user-attachments/assets/54f2b9f4-3190-43bf-85e5-2747696e173f)
+
+**Paso 4:** Agregar el envio del **DropDownListCargos** en la accion **Index** del controlador **Empleado**.
+```csharp
+// Listas de seleccion filtros
+ViewBag.Cargos = DropDownListCargos();
+```
+![image](https://github.com/user-attachments/assets/54e0216a-12b8-4fd2-b12e-96d491f65aef)
+
+## PARTE 4 - Crear View Index
 **Paso 1:** Seleccionar la accion Index, dar clic derecho y seleccionar **Agregar Vista**
 
 ![image](https://github.com/user-attachments/assets/a1897d10-ee88-4ad2-bbba-9fbc4087eefa)
@@ -110,3 +163,76 @@ return View(lista);
 
 ![image](https://github.com/user-attachments/assets/2f4c6b4d-2968-4b35-8b79-1c91e16865d6)
 
+**Resultado:**
+![image](https://github.com/user-attachments/assets/3ad2f653-80fb-4764-ad85-0d4282fad3d5)
+
+**Paso 3:** Seleccinar en **Plantilla "List"**, en **Clase de modelo** seleccionar la clase **"Empleado (EN)"** y dar clic en **Agregar**.
+
+![image](https://github.com/user-attachments/assets/59870d7c-3676-4106-89cb-5ff50e6619b7)
+
+**Resultado:**
+![image](https://github.com/user-attachments/assets/ddaf62e6-077e-4ea9-ac71-9268a5d6c7d6)
+
+
+**Paso 4:** Iniciar el servidor IIS. 
+
+![image](https://github.com/user-attachments/assets/6eb19f1c-e99c-4215-bd75-479f6fd1307f)
+
+**Paso 5:** Dar clic en la opcion de Empleados del menu.
+![image](https://github.com/user-attachments/assets/276482c0-b3c7-4297-9a5b-963c9c04313a)
+
+**Resultado:**
+![image](https://github.com/user-attachments/assets/62e2b6e6-be2b-4895-9200-71a5ee04dab2)
+
+**Paso 5:** Detener el servidor IIS.
+![image](https://github.com/user-attachments/assets/cd85f0e0-8342-47b9-9426-ac8337b0cc59)
+
+### MEJORAS
+🟠 Renombrar el **encabezado**, **agregar campos de filtrado** de los empleados y estilizar el enlace de **Create New**
+🔴 Mostrar el **nombre del cargo** del empleado.
+🔵 **Eliminar la columnar** de Clave.
+🟢 Modificar y **estilizar los botones** de Edit y Delete.
+
+![image](https://github.com/user-attachments/assets/05bd438d-726e-4f16-953a-58153f3cbbde)
+
+## PARTE 5 - Agregar Filtros de Busqueda 
+
+**Paso 1:** Cambiar el ViewBag.Title por "Empleados" y el titulo h2 por "Empleados" y Agregar un <hr> 
+
+![image](https://github.com/user-attachments/assets/ce316f84-9c3c-462d-b209-308197350da9)
+
+**Resultado:**
+![image](https://github.com/user-attachments/assets/25684cd1-f4bd-41a4-8b25-70de9bbb6ad0)
+
+**Paso 2:** Eliminar el enlace para **Create New**.
+
+![image](https://github.com/user-attachments/assets/ea5908bd-911e-4b09-8490-0078564bb788)
+
+**Resultado:**
+![image](https://github.com/user-attachments/assets/e36a2ec9-b997-447e-a449-652b3ccd2c58)
+
+**Paso 3:** Agregar un **form** para enviar una peticion **GET** a la accion **Index** del controlador **Empleado**.
+```razor
+<form method="get" action="@Url.Action("Index","Empleado")" class="row">
+
+</form>
+```
+![image](https://github.com/user-attachments/assets/056b99e4-1889-4ba9-a931-018e0b8ceeb0)
+
+**Paso 4:** Agregar los filtros de Nombre 
+```razor
+<div class="col-12 col-lg-3 mt-2">
+    <label class="form-label fw-bold" for="">Nombre o Apellido:</label>
+    <input type="text" class="form-control" name="Nombre" placeholder="" />
+</div>
+
+<div class="col-12 col-lg-3 mt-2">
+    <label class="form-label fw-bold" for="">Cargo:</label>
+    @Html.DropDownList("IdCargo", new SelectList(ViewBag.Cargos, "Value", "Text", null), new { @class = "form-select" })
+</div>
+
+<div class="col-12 col-lg-2 d-flex align-items-end mt-2">
+    <button type="submit" class="btn btn-primary mx-2">BUSCAR</button>
+    @Html.ActionLink("NUEVO", "Create", null, new { @Class = "btn btn-secondary" })
+</div>
+```
