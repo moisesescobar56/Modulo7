@@ -1,130 +1,112 @@
 # Programación de funcionalidad BUSCAR
 
-## PARTE 1 - Configurar Referencias y Conexión
-**Paso 1:** Seleccionar el formulario y en la ventana de Propiedades dar clic sobre el menú de **Eventos**. 
+## METODOS DE ENVIO DE DATOS AL SERVIDOR
 
-![image](https://github.com/user-attachments/assets/2d129675-cdd7-4457-b40e-2ba6160a0c97)
+**GET:** Envia los parametros al controlador mediante la url.
 
-**Paso 2:** En el evento Load dar doble clic en el espacio en blanco para generar el evento Load del 
-formulario.
+![image](https://github.com/user-attachments/assets/ee9945b4-66be-480e-b714-325cacb86378)
 
-![image](https://github.com/user-attachments/assets/7b970327-3109-42bf-b953-a83e2427a50b)
+**Usos:** 
+- Mostrar vistas, como Inicio de sesion, Menu o Registro.
+- Recibir parametros de busqueda y luego mostrar una vista con los datos segun los parametros aplicados.
+
+**POST:** Envia los parametros al controlador mediante un PayLoad. El PayLoad es un objeto que se envia una solicitud como paquete al controlador, tiene una header y un body.
+- **Header:** contiene la codificacion (UTF-8), token y direccion de envio de la solicitud.
+- **Body:** contiene los datos de la solicitud en formato JSON o XML.
+- **JSON (JavaScript Object Notation):** es un formato ligero de intercambio de datos. Leerlo y escribirlo es simple para humanos, mientras que para las máquinas es simple interpretarlo y generarlo. [Leer más](https://developer.mozilla.org/es/docs/Learn/JavaScript/Objects/JSON)
+
+![image](https://github.com/user-attachments/assets/9acf5e9b-2a56-4828-93a5-1b4553a6d5a2)
+
+**Usos**
+- Envio de solicitudes POST de registro de datos mediante formularios HTML.
+
+## PARTE 1 - Crear Controlador
+**Paso 1:** Dar clic derecho en la carpeta **Controllers** y seleccionar **Agregar > Controlador**.
+
+![image](https://github.com/user-attachments/assets/483c2936-bb18-4a2b-89d3-37b46ee923ef)
+
+**Paso 2:** Seleccionar **Controlador de MVC 5 con acciones de lectura y escritura** y dar clic en **Agregar**.
+
+![image](https://github.com/user-attachments/assets/4e0e53d7-94cb-4565-9610-91b71824faf5)
+
+**Paso 3:** Renombrar en **singular** el controlador con el **nombre de la clase** que se desea crear el **CRUD**. Estructura **Clase + Controller**
+```
+EmpleadoController
+```
+
+![image](https://github.com/user-attachments/assets/fb4578e0-cb41-43dc-948f-1441e4fadafb)
+
+**Paso 4:** Luego de renombrar el controlador, dar clic en **Agregar**.
+
+![image](https://github.com/user-attachments/assets/8680273e-f9a8-4082-bf23-a20f9b424807)
 
 **Resultado:**
-![image](https://github.com/user-attachments/assets/3e10c566-8e1f-4ca7-b49a-c2a9d3279ef0)
 
-**Paso 3:** Agregar referencias a librerías en el formulario.
+![image](https://github.com/user-attachments/assets/4a838818-0973-4baa-9d79-cad003d582d3)
+
+**Paso 5:** Eliminar las acciones **GET** de **Details** y **Delete**, 
+
+![image](https://github.com/user-attachments/assets/6335e4a4-74d8-4eec-85dc-7dbafb110a65)
+
+- **GET - Details:** es una vista que permite visualizar los datos completos de un registro mediante su ID.
+- **GET - Delete:** es una vista que permite visualizar los datos de un registros mediante su ID y luego confirmar la eliminacion. 
+
+**Resultado:**
+
+![image](https://github.com/user-attachments/assets/c90d63a0-9e16-439f-89d6-08c7fa8b6be0)
+
+## PARTE 2 - Codificar accion Index en Controlador
+**Paso 1:** Agregar las **referencias de biblioteca** al controlador.
 ```csharp
-//Referencias del proyecto
+// Referencias
 using SistemaElParaisal.EN;
 using SistemaElParaisal.BL;
 ```
-![image](https://github.com/user-attachments/assets/782a82f6-78ea-4bc1-8f8e-fe452b9d0e21)
+![image](https://github.com/user-attachments/assets/48ee0225-c324-47be-bd8f-df22a1237bf3)
 
-**Paso 4:** Agregar crear conexión a la base de datos mediante EmpleadoBL y agregar variable “lista” para cargar los empleados en el DataGridView. 
+**Paso 2:**  Agregar la **conexion a la base de datos** mediante la **EmpleadoBL** de la entidad.
 ```csharp
-// Conexion a la tabla de Empleados en la DB
+//Conexion a la tabla Empleado
 EmpleadoBL empleadoBL = new EmpleadoBL();
-//Variables
-List<Empleado> lista = new List<Empleado>();
 ```
-![image](https://github.com/user-attachments/assets/adc667d2-1f66-4eca-a48c-25b18420eea7)
+![image](https://github.com/user-attachments/assets/73d507c3-8d16-4043-9011-dbb2dabef10a)
 
-## PARTE 2 - Codificacion de ComboBox (Lista de selección de Cargos)
-
-![image](https://github.com/user-attachments/assets/d620e7af-286c-4dc6-8f00-09791f5658ab)
-
-**Paso 1:** Programar la lógica del método interno "CargarCargos()" para mostrar las cargos en forma de lista de selecciónen el control cargoComboBox.
+**Paso 3:** Agregar como parametro opcional, recibir un objeto de tipo Empleado en la accion Index.
 ```csharp
-public void CargarCargos()
+Empleado pEmpleado
+```
+![image](https://github.com/user-attachments/assets/721a2341-6620-4c3c-9aa8-12a80a34b1a6)
+
+**Paso 4:** Validar que si el parametro es nulo se cree un nuevo objeto vacio.
+```csharp
+if(pEmpleado == null)
 {
-    // Conexion a la tabla de Cargo en la DB
-    CargoBL cargoBL = new CargoBL();
-
-    // Inicializar lista 
-    List<Cargo> cargos = new List<Cargo>();
-    cargos.Add(new Cargo { IdCargo = 0, Nombre = "SELECCIONAR" }); // Opcion por defecto
-
-    // Obtener lista de Cargos de la DB
-    cargos.AddRange(cargoBL.Buscar(new Cargo()));
-    cargoComboBox.DataSource = cargos;
-
-    // Configurar texto y valor de la lista de seleccion
-    cargoComboBox.DisplayMember = "Nombre";
-    cargoComboBox.ValueMember = "IdCargo";
+    pEmpleado = new Empleado();
 }
 ```
-![image](https://github.com/user-attachments/assets/1c94811c-0855-4948-afef-71d8842e2ade)
+![image](https://github.com/user-attachments/assets/3f35808f-a3b8-474b-a4d8-6ea84b1ba367)
 
-- **DisplayMember:** es la propiedad del objeto VISIBLE para el usuario, representa el texto que muestra cada elemento. 
--  **ValueMember:** es la propiedad del objeto OCULTA para el usuario, que representa el valor de un elemento de la lista.
+**Paso 5:** Agregar la logica de busqueda en la base de datos y retornar la **List < Empleado >** a la vista. 
 
-**Paso 2:** Codificar el evento Load del formulario. 
+**Nota:** Adicionalmente si se tienen los metodos de **CargarClaseVirtual()**, puede incluirse para mostrar las llaves foraneas de la clase.
+
 ```csharp
-//Cargar ComboBoxs en el formulario
-CargarCargos();
-```
-![image](https://github.com/user-attachments/assets/1af6cf63-5b09-423a-be90-23d0f228f0f1)
+List<Empleado> lista = empleadoBL.Buscar(pEmpleado);
 
-**Paso 3:** Iniciar la aplicacion.
-![image](https://github.com/user-attachments/assets/c44bad4d-30e8-452e-bc00-594b96ab4a43)
+// Cargar propiedades virtuales
+empleadoBL.CargarCargoVirtual(lista);
 
-**Resultado:**
-![image](https://github.com/user-attachments/assets/c1447221-bd12-4176-94b7-b480b91b56db)
-
-**Paso 4:** Detener la aplicacion.
-![image](https://github.com/user-attachments/assets/56e319f1-4420-4a3d-9c4f-e72252c891c3)
-
-## PARTE 3 - Codificacion de Accion BUSCAR
-
-**Paso 1:** Seleccionar el botón "buscarButton" y dar **doble clic** para generar evento click
-
-![image](https://github.com/user-attachments/assets/d246b0c8-6dab-44bd-b56b-1786e157b4c0)
-
-**Resultado:**
-![image](https://github.com/user-attachments/assets/37722a63-4fc3-431e-82c2-f0a13c4c50db)
-
-**Paso 2:** Programar la lógica del método interno CargarLista para cargar mostrar los empleados en forma de tabla en el control **listaDataGridView**.
-```csharp
-private void CargarLista()
-{
-    listaDataGridView.DataSource = ""; // Vaciar DataGridView
-    listaDataGridView.DataSource = lista; // Agregar objetos de lista
-}
-```
-![image](https://github.com/user-attachments/assets/ff5e08f1-a298-47cd-b73b-62fff788eda8)
-
-**Paso 3:** Programar el evento click de **"buscarButton"**, agregando la siguiente lógica. 
-```csharp
-// Obtener los filtros de busquedas
-Empleado empleado = new Empleado();
-empleado.Nombre = nombreTextBox.Text;
-empleado.Telefono = telefonoTextBox.Text;
-empleado.IdCargo = (byte)cargoComboBox.SelectedValue;
-
-// Ejecutar busqueda
-lista = empleadoBL.Buscar(empleado);
-CargarLista();
+return View(lista);
 ```
 
-![image](https://github.com/user-attachments/assets/c1c31158-13a1-44ba-9f86-29377b3cb518)
+![image](https://github.com/user-attachments/assets/502096a0-c251-47ed-9197-7427794fe2f7)
 
-**Paso 4:** Iniciar la aplicacion.
-![image](https://github.com/user-attachments/assets/c44bad4d-30e8-452e-bc00-594b96ab4a43)
+## PARTE 3 - Crear View Index
+**Paso 1:** Seleccionar la accion Index, dar clic derecho y seleccionar **Agregar Vista**
 
-**Resultado:** Dar clic en el botón **BUSCAR** y se mostrara la lista de empleados guardados.
-![image](https://github.com/user-attachments/assets/9933a892-4d30-4867-9fcb-6cec078ef017)
+![image](https://github.com/user-attachments/assets/a1897d10-ee88-4ad2-bbba-9fbc4087eefa)
 
-#### MEJORAS: No se muestra el nombre del cargo en los empleados filtrados por el cargo **“Administrador”**.
-![image](https://github.com/user-attachments/assets/866a03fa-be78-4180-8d80-63c21aee01ec)
+**Paso 2:** Seleccionar **Vista de MVC 5** y dar clic en **Agregar**.
 
-***NOTA:*** *Al observar el resultado, la información de empleados se carga correctamente, pero los datos
-no se muestran de una forma limpia y comprensible para el usuario, debida a que el usuario 
-no puede interpretar cual es el cargo con valor “1”*
-
-**Paso 5:** Detener la aplicacion.
-![image](https://github.com/user-attachments/assets/56e319f1-4420-4a3d-9c4f-e72252c891c3)
-
-
-## REVISAR EL MATERIAL: "TRATAMIENTO DE DATOS"
+![image](https://github.com/user-attachments/assets/2f4c6b4d-2968-4b35-8b79-1c91e16865d6)
 
