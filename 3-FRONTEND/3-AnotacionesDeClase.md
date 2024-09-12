@@ -10,11 +10,13 @@ Las anotaciones de clase funcionan como reglas que se deben aplicar o validar al
 
 Existe una extensa lista de anotaciones en .NET, puedes consultarlas [aquí](https://www.bytehide.com/blog/data-annotations-in-csharp). 
 
-**Lista de anotaciones:**
+### Lista de anotaciones:
+
 ![image](https://github.com/user-attachments/assets/75007444-ef9d-4b40-a445-8faa32011ae2)
 
-**Descripcion y Ejemplos**
+### Descripcion y Ejemplos:
 
+![image](https://github.com/user-attachments/assets/b018ca89-a102-4a6f-bac7-5a66dc1cc022)
 
 ## PARTE 1 - Diseñar el formulario **"AdminEmpleadoFrom.cs"**
 
