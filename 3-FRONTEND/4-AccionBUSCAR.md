@@ -189,8 +189,11 @@ ViewBag.Cargos = DropDownListCargos();
 
 ### MEJORAS
 🟠 Renombrar el **encabezado**, **agregar campos de filtrado** de los empleados y estilizar el enlace de **Create New**
+
 🔴 Mostrar el **nombre del cargo** del empleado.
+
 🔵 **Eliminar la columnar** de Clave.
+
 🟢 Modificar y **estilizar los botones** de Edit y Delete.
 
 ![image](https://github.com/user-attachments/assets/05bd438d-726e-4f16-953a-58153f3cbbde)
