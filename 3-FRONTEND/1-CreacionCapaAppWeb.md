@@ -26,8 +26,8 @@
 **Resultado:**
 ![image](https://github.com/user-attachments/assets/b7a39b93-9294-40aa-a4fe-2e1146810bad)
 
-**Paso 6:** Seleccionar el proyecto **"UI.AppWebMVC"**, dar clic derecho y seleccionar como proyecto de inicio.
-![image](https://github.com/user-attachments/assets/f7f43953-d380-43f4-80b1-0530ef145820)
+**Paso 6:** Seleccionar el proyecto **"UI.AppWebMVC"**, dar clic derecho y seleccionar **Establecer como proyecto de inicio.**
+![image](https://github.com/user-attachments/assets/3221f8d2-904b-4f16-afa9-3580cc0782f1)
 
 **Resultado:**
 ![image](https://github.com/user-attachments/assets/c106490b-12ae-44c9-a4e5-430c719e8532)
