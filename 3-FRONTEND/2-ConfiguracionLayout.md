@@ -55,7 +55,7 @@ Para este proyecto se utilizaron librerias como:
 
 **Paso 7:** Seleccionar **Aplicar a todos los elementos** y dar clic en **SI**, si se muestra una advertencia.
 
-![image](https://github.com/user-attachments/assets/7bcdd40b-0602-4bcb-9a12-4718bbedd658)
+![image](https://github.com/user-attachments/assets/4e901b4c-2fd0-4b00-b927-dbc10a3740d9)
 
 **Resultado:**
 
