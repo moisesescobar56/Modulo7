@@ -18,7 +18,9 @@
 ![image](https://github.com/user-attachments/assets/9acf5e9b-2a56-4828-93a5-1b4553a6d5a2)
 
 **Usos**
-- Envio de solicitudes POST de registro de datos mediante formularios HTML.
+- Envio de solicitudes POST, que permiten la entrega de datos del formularios HTML.
+- Envio de solicitudes POST, que permiten la obtencion de datos del servidor mediante JavaScript para la presentacion de informacion dinamica en la pagina web.
+- Cargar nuevos elementos HTML sin recargar la pagina web.
 
 ## PARTE 1 - Crear Controlador
 **Paso 1:** Dar clic derecho en la carpeta **Controllers** y seleccionar **Agregar > Controlador**.
