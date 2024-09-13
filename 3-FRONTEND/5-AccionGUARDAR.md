@@ -41,7 +41,7 @@ Empleado pEmpleado
 **NOTAS:**
 - **Exception ex** captura el error en la vista.
 - **ModelState.AddModelError()** informa mediante un mensaje los errores al usuario al inicio del formulario.
-- **ViewBag.Cargos** se envia a la vista, debido a que la accion **GET** de **Create** muestra una lista de cargos en la vista. Al ser un dato que espera la vista, si no se envia veremo un error siguiente:
+- **ViewBag.Cargos** se envia a la vista, debido a que la accion **GET** de **Create** muestra una lista de cargos en la vista. Al ser un dato que espera la vista, si no se envia veremos un error similar al siguiente:
 
 ![image](https://github.com/user-attachments/assets/f78d014d-c247-4c7c-807c-d453a2e08256)
 
