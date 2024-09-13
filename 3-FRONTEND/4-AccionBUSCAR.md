@@ -323,8 +323,12 @@ table-hover
 ![image](https://github.com/user-attachments/assets/276482c0-b3c7-4297-9a5b-963c9c04313a)
 
 **Resultado:**
-![image](https://github.com/user-attachments/assets/a532603b-581f-4cf5-b1bf-178887c49565)
+![image](https://github.com/user-attachments/assets/180bf59e-4f25-48c5-9c5d-6d00cd4cc6dc)
 
+**NOTAS:**
+- Se quito la columna Clave de la tabla.
+- Se muestra el nombre del Cargo del empleado.
+- Se estructura y dividio correctamente el HTML de la tabla.
 
 **Paso 7:** Detener el servidor IIS.
 ![image](https://github.com/user-attachments/assets/cd85f0e0-8342-47b9-9426-ac8337b0cc59)
