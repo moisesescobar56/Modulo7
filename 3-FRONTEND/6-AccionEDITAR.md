@@ -87,7 +87,7 @@ if (ModelState.IsValid)
 - **ModelState.Remove()** elimina la validacion del modelo de datos.
 ---
   ### Aclaracion
-  En este caso se elimino la validacion, por el metodo de modificar Empleado en EmpleadoDAL no envia el parametro Clave al procedimiento almacenado en la base de datos.
+  En este caso se elimino la validacion, por que el metodo de **Modificar** Empleado en **EmpleadoDAL** no envia el parametro **Clave** al **procedimiento almacenado** en la base de datos.
 
   ![image](https://github.com/user-attachments/assets/3f6baeb0-d0c7-438f-a1b9-72eec8be01b7)
 
