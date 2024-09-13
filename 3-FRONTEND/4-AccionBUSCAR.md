@@ -221,7 +221,7 @@ ViewBag.Cargos = DropDownListCargos();
 ```
 ![image](https://github.com/user-attachments/assets/056b99e4-1889-4ba9-a931-018e0b8ceeb0)
 
-**Paso 4:** Agregar los filtros de Nombre en el HTML.
+**Paso 4:** Agregar los filtros de Nombre y IdCargo en el HTML.
 ```razor
 <div class="col-12 col-lg-3 mt-2">
     <label class="form-label fw-bold" for="">Nombre o Apellido:</label>
@@ -278,5 +278,53 @@ ViewBag.Cargos = DropDownListCargos();
 **Resultado:**
 ![image](https://github.com/user-attachments/assets/668714e8-13d1-4ca6-acb2-388ff671ba54)
 
-## PARTE 7 - Cargar LLaves Foraneas y Eliminar Columna Clave
+## PARTE 7 - Estilizar tabla de datos
+**Paso 1:** Crear un **div** abajo de la tabla, para anidar la **tabla** y volverla responsive.
+```razor
+<div class="row mt-3">
+    <div class="col-lg-12 table-responsive">
 
+    </div>
+</div>
+```
+
+![image](https://github.com/user-attachments/assets/de9cfaea-99ba-4b44-a581-67ba2132bd60)
+
+**Resultado:**
+![image](https://github.com/user-attachments/assets/4d5122bb-842e-4cd6-b083-7d2614d054c4)
+
+**NOTA:** Si observamos la tabla carece de las secciones **thead** y **tbody**.
+
+**Paso 2:** **Estructurar** correctamente la tabla. Anidar el primer **tr** en **thead** y anidar el segundo **tr** dentro del foreach en **tbody**
+
+![image](https://github.com/user-attachments/assets/292980bf-1065-472f-99b5-17bb2aab5cc6)
+
+**Resultado**
+![image](https://github.com/user-attachments/assets/3c2396ec-ed92-4290-bf6e-1c5e285196d9)
+
+**Paso 3:** Agregar la clase **"table-hover"** a la tabla.
+```css
+table-hover
+```
+![image](https://github.com/user-attachments/assets/39358edb-bd92-48f5-a156-068ca94962b7)
+
+**Paso 4:** Mover la **tabla** dentro del **div** que esta despues, para anidarla y volverla responsible
+
+![image](https://github.com/user-attachments/assets/dc9d3e5d-c4af-4528-8533-fc634f9f1b00)
+
+**Resultado:**
+![image](https://github.com/user-attachments/assets/91e79225-e727-4edb-9c53-5c8e157a6004)
+
+**Paso 5:** Iniciar el servidor IIS. 
+
+![image](https://github.com/user-attachments/assets/6eb19f1c-e99c-4215-bd75-479f6fd1307f)
+
+**Paso 6:** Dar clic en la opcion de Empleados del menu.
+![image](https://github.com/user-attachments/assets/276482c0-b3c7-4297-9a5b-963c9c04313a)
+
+**Resultado:**
+![image](https://github.com/user-attachments/assets/a532603b-581f-4cf5-b1bf-178887c49565)
+
+
+**Paso 7:** Detener el servidor IIS.
+![image](https://github.com/user-attachments/assets/cd85f0e0-8342-47b9-9426-ac8337b0cc59)
