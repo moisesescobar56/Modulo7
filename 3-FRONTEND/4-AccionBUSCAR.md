@@ -101,12 +101,18 @@ return View(lista);
 
 ![image](https://github.com/user-attachments/assets/502096a0-c251-47ed-9197-7427794fe2f7)
 
+
 ## PARTE 3 - Crear DropDownList Cargos (Select o ComboBox)
 
 El DropDownList o Select creara una lista desplegable con la que el usuario podra seleccionar facilmente la opcion que desee.
 
 ![image](https://github.com/user-attachments/assets/7bc570ed-277b-488c-ab89-47dec8867e69)
+---
+#### El DropDownList se creara uno por cada llave foranea (FK) de la clase.
 
+![image](https://github.com/user-attachments/assets/5d0d3e64-62f8-4284-b142-47695ae1e911) 
+
+---
 **Paso 1:** Ubicarse despues de la accion final Delete del controlador y abrir un espacio.
 
 ![image](https://github.com/user-attachments/assets/e8120405-209c-4642-b97c-059c724352bd)
@@ -124,7 +130,7 @@ public static List<SelectListItem> DropDownListCargos(byte pId = 0)
 
 - El parametro **pId** debe ser del mismo tipo que la clase del origen de datos que cargara.
 
-**Paso 3:** Agregar la logica para cargar las opciones de Cargo.
+**Paso 3:** Agregar la logica para cargar las opciones de **Cargo**.
 ```csharp
 List<SelectListItem> options = new List<SelectListItem>
 {
