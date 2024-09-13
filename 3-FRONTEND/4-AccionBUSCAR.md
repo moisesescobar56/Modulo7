@@ -9,7 +9,7 @@
 **Usos:** 
 - Mostrar vistas, como Inicio de sesion, Menu o Registro.
 - Recibir parametros de busqueda y luego mostrar una vista con los datos segun los parametros aplicados.
-
+---
 **POST:** Envia los parametros al controlador mediante un PayLoad. El PayLoad es un objeto que se envia una solicitud como paquete al controlador, tiene una header y un body.
 - **Header:** contiene la codificacion (UTF-8), token y direccion de envio de la solicitud.
 - **Body:** contiene los datos de la solicitud en formato JSON o XML.
