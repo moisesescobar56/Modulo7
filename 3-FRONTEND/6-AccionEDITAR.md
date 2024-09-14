@@ -44,7 +44,7 @@ short id, Empleado pEmpleado
 ![image](https://github.com/user-attachments/assets/ecd879b5-8e5c-4384-bf51-e391a13a2b48)
 
 
-**Paso 4:** Actualizar el **Try/Catch** de la accion **POST** de **Create**, para capturar errores y enviarlos a la vista.
+**Paso 4:** Actualizar el **Try/Catch** de la accion **POST** de **Edit**, para capturar errores y enviarlos a la vista.
 ```csharp
 try
 {
@@ -65,11 +65,11 @@ return View(pEmpleado);
 **NOTAS:**
 - **Exception ex** captura el error ocurrido en el controlador.
 - **ModelState.AddModelError()** informa mediante un mensaje los errores al usuario al inicio del formulario.
-- **ViewBag.Cargos** se envia a la vista, debido a que la accion **GET** de **Create** muestra una lista de cargos en la vista. Al ser un dato que espera la vista, si no se envia veremos un error similar al siguiente:
+- **ViewBag.Cargos** se envia a la vista, debido a que la accion **GET** de **Edit** muestra una lista de cargos en la vista. Al ser un dato que espera la vista, si no se envia veremos un error similar al siguiente:
 
 ![image](https://github.com/user-attachments/assets/f78d014d-c247-4c7c-807c-d453a2e08256)
 
-**Paso 5:** Agregar dentro del **Try** de la accion **POST** de Create, la logica para **editar un empleado** si el modelo es valido.
+**Paso 5:** Agregar dentro del **Try** de la accion **POST** de Edit, la logica para **editar un empleado** si el modelo es valido.
 ```csharp
 // Remover validaciones no obligatorias al editar
 ModelState.Remove("Clave");
