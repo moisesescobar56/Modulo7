@@ -11,8 +11,8 @@ Es el mecanismo que permite afirmar que la persona que esta ingresando al sistem
 **Paso 0:** Ubicarse en el proyecto **SistemaVentas.UI.AppWebMVC**. 
 
 **Paso 1:** Seleccionar l
-a carpeta **Controllers** luego dar clic derecho y seleccionar **Agregar >
-Controlador**.
+a carpeta **Controllers** luego dar clic derecho y seleccionar **Agregar > Controlador**.
+
 ![image](https://github.com/user-attachments/assets/08edc07c-3beb-4a37-a1e4-06a3d20e8ec0)
 
 **Paso 2:** Seleccionar “Controlador de MVC5: en blanco” y dar clic en Agregar.
@@ -133,7 +133,10 @@ Vista**.
 
 
 **Paso 3:** verificar que la pagina de diseño este seleccionada y dar clic sobre Agregar.
-```NOTA: Si se desea crear un diseño si incluir en menu de navegacion del layout, desmarque la opcion "Usar pagina de diseño"```
+
+```
+NOTA: Si se desea crear un diseño si incluir en menu de navegacion del layout, desmarque la opcion "Usar pagina de diseño"
+```
 
 ![image](https://github.com/user-attachments/assets/29c524ac-8d43-4e0e-977e-26826aa89d63)
 
@@ -158,8 +161,8 @@ mostrar el telefono ingresado al usuario en caso ingrese credenciales incorrecta
 {
     <div class="alert alert-danger">@ViewBag.mensaje</div>
 }
-<form method="post" action="@Url.Action("Index","Auth")" class="d-inline-flex">
 
+<form method="post" action="@Url.Action("Index","Auth")" class="d-inline-flex">
 
     <input type="text" class="form-control" placeholder="Teléfono" 
            name="Telefono" value="@Model.Telefono" required />
@@ -172,7 +175,8 @@ mostrar el telefono ingresado al usuario en caso ingrese credenciales incorrecta
 </form>
 ```
 
-![image](https://github.com/user-attachments/assets/82fbff76-10c0-480e-a398-d91c58d58ab2)
+![image](https://github.com/user-attachments/assets/bb6d1021-d3c2-4697-baee-8d8b75959698)
+
 
 **NOTAS:**
 - **@Url.Action("Action", "Controller")** define el controlador donde enviara el formulario los datos mediante el **Protocolo HTTP POST**.
@@ -183,6 +187,7 @@ mostrar el telefono ingresado al usuario en caso ingrese credenciales incorrecta
 El **name** de los **inputs** de las credenciales (telefono y clave), deben coincidir con los de la
 clase de **“autenticación”** de nuestro proyecto, en este caso la clase es **Empleado**.
 
+---
 
 **Paso 6:** Abrir la vista **Index** del controlador **Home**.
 
@@ -223,7 +228,11 @@ string ObtenerNombreEmpleado()
 ![image](https://github.com/user-attachments/assets/74013a8d-0194-4fde-8a4c-82a71e3383b4)
 
 **Paso 10:** Abrir el archivo **Web.config** del proyecto ASP.NET para habilitar la autenticación mediante Formularios (Forms).
-```OJO: prestar atencion al archivo que se solicita en la imagen.```
+
+```
+OJO: prestar atencion al archivo que se solicita en la imagen.
+```
+
 ![image](https://github.com/user-attachments/assets/01cbd952-ca0c-4724-a74a-15eaca7f335d)
 
 **Paso 11:** Editar el archivo **Web.config**, ubicar la sección **<system.web>... </system.web>** y abrir un
@@ -242,15 +251,6 @@ espacio debajo de la configuración **<httpRuntime ... />**
 ```
 
 ![image](https://github.com/user-attachments/assets/fd7aca51-5b08-438b-8161-f86b902dc127)
-
-
-```razor
-
-```
-
-```csharp
-
-```
 
 **Paso 13:** Iniciar el servidor IIS. 
 
