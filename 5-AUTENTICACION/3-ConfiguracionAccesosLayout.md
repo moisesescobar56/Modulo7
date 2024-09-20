@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/402fbb3e-577a-477b-9534-4562cd0faf72)# CONFIGURACION DE LAYOUT SEGUN NIVEL DE ACCESO 
+# CONFIGURACION DE LAYOUT SEGUN NIVEL DE ACCESO 
 #### SEGURIDAD
 De momento la aplicación ya cuenta con un sistema de autenticación parcial, si nos damos cuenta en la siguiente imagen cualquier usuario puede ver las opciones del menú lateral.
 
@@ -36,11 +36,12 @@ De momento la aplicación ya cuenta con un sistema de autenticación parcial, si
 
 ![image](https://github.com/user-attachments/assets/b4a30d68-d913-4f03-b167-ffad10d307b6)
 
-**Paso 3:** Ubicarse en la etiqueta <ul> del **NavBar** para eliminar los enlaces.
+**Paso 3:** Ubicarse en la etiqueta **ul** del **NavBar** para eliminar los enlaces.
 
-![image](https://github.com/user-attachments/assets/6a527a68-e1e8-412b-82f1-55d12a664db9)
+![image](https://github.com/user-attachments/assets/1ccd416d-5367-448d-805b-9ab6b6f66163)
 
 **Resultado:**
+
 ![image](https://github.com/user-attachments/assets/8ea151b4-239a-4b0d-a00a-59e81c592251)
 
 **Paso 4:** Habilitar opción de inicio de sesión y salir del sistema, configurando los enlaces correspondientes.
@@ -125,7 +126,7 @@ Según la validación anterior, el **Administrador** podrá acceder desde el men
 
 ![image](https://github.com/user-attachments/assets/3cc20185-79ef-42a3-9d30-5ebb61c30a22)
 
-#### Resultado: Administrador
+## Resultado: Administrador
 
 ![image](https://github.com/user-attachments/assets/73baed4b-8164-475f-9faf-491f43e62296)
 
@@ -135,7 +136,7 @@ Según la validación anterior, el **Administrador** podrá acceder desde el men
 
 ![image](https://github.com/user-attachments/assets/34954729-c515-43eb-bd0f-cfe24ef7b61c)
 
-#### Resultado: Vendedor
+## Resultado: Vendedor
 
 ![image](https://github.com/user-attachments/assets/b9e13c2c-4ecd-40a8-b37c-77bdbecb7689)
 
