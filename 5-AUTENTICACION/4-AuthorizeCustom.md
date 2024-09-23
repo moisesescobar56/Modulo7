@@ -130,21 +130,22 @@ catch (Exception ex)
 ```
 ![image](https://github.com/user-attachments/assets/92488ce2-eefa-4fe6-b077-e4b92a7934a3)
 
+---
+**NOTA:** Los cargos deben ser nombres que existan en nuestra tabla de **cargos/roles/permisos**.
 
 ![image](https://github.com/user-attachments/assets/ceff48a7-51a6-4789-8436-7e77ccd7e804)
 
-**NOTA:** Los cargos deben ser nombres que existan en nuestra tabla de **cargos/roles/permisos**.
-
+---
 **Paso 11:** Dar clic en iniciar el **IIS Express** y probar el funcionamiento de la seguridad.
 ![image](https://github.com/user-attachments/assets/6eb19f1c-e99c-4215-bd75-479f6fd1307f)
 
 **Paso 12:** Si en la barra de direcciones agregamos “/Empleado” para acceder al controlador de empleados sin iniciar sesión, como se muestra en la imagen y pulsamos la tecla Enter.
 
-![image](https://github.com/user-attachments/assets/dc4b349c-4cbd-4cdc-a086-3c88979a5ed1)
+![image](https://github.com/user-attachments/assets/a8eb2b5a-7f71-4fb2-98eb-e9c60e2e6d26)
 
 **Resultado:** El servidor nos enviara al inicio de sesión indicando que el acceso es denegado.
 
-![image](https://github.com/user-attachments/assets/1da88b03-b27d-4854-b781-88bd6803574b)
+![image](https://github.com/user-attachments/assets/da6348a9-f0e1-4c69-849e-f71c0bba8a3d)
 
 **Paso 13:** Detener el servidor IIS.
 ![image](https://github.com/user-attachments/assets/cd85f0e0-8342-47b9-9426-ac8337b0cc59)
