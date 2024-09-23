@@ -111,7 +111,7 @@ catch (Exception ex)
 
 **Paso 10:** Implementar el decorador **[AuthorizeCustom]** en el **EmpleadoController**. 
 
-## Todos los cargos: en este ejemplo se está dando acceso a todos los cargos. Los nombres de los cargos estan separados por una linea vertical **"|"**.
+## TODOS LOS CARGOS: en este ejemplo se está dando acceso al controlador a todos los cargos. Los nombres de los cargos estan separados por una linea vertical **"|"**.
 
 ```csharp
 [AuthorizeCustom("ADMINISTRADOR|VENDEDOR")]
@@ -120,7 +120,7 @@ catch (Exception ex)
 ![image](https://github.com/user-attachments/assets/2b837858-bc4c-4c19-8c94-d411a260de77)
 
 
-## Solo un cargo: en este ejemplo se está dando acceso solo a usuario con cargo de administrador.
+## SOLO UN CARGO: en este ejemplo se está dando acceso al controlador solo a los usuarios con cargo de Administrador.
 
 ```csharp
 [AuthorizeCustom("ADMINISTRADOR")]
