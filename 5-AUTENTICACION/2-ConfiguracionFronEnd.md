@@ -268,7 +268,7 @@ espacio debajo de la configuración **<httpRuntime ... />**
 
 **Paso 15:** Ingresar las credenciales de un empleado de la base de datos y dar clic en **Entrar**.
 
-![image](https://github.com/user-attachments/assets/a433d25c-1ef8-44d5-b52d-84999b8e02af)
+![image](https://github.com/user-attachments/assets/6ea46b04-39f2-40ef-a419-132cfc6c27c2)
 
 ![image](https://github.com/user-attachments/assets/1f12cf08-fd36-485c-9400-42a64ac381d6)
 
