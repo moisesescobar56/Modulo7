@@ -1,5 +1,8 @@
 # Implementación de seguridad de acceso en controladores mediante [Decoradores].
-La siguiente implementación protege las acciones dentro de los controladores, para evitar el acceso o invocación de acciones de forma manual en la aplicación web sin haberse autenticado o poseer un usuario dentro del sistema.
+La siguiente implementación protege las acciones dentro de los controladores, para evitar el acceso o invocación de acciones de forma 
+manual en la aplicación web sin haberse autenticado o poseer un usuario dentro del sistema.
+
+- [Documentacion Miscrosoft - AuthorizeAttribute](https://learn.microsoft.com/es-es/dotnet/api/system.web.mvc.authorizeattribute?view=aspnet-mvc-5.2)
 
 **Paso 0:** Ubicarse en el proyecto SistemaElParaisal.UI.AppWebMVC. 
 
