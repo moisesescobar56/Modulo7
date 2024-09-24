@@ -272,15 +272,38 @@ public ActionResult Create(Venta pVenta)
 
 ![image](https://github.com/user-attachments/assets/4c31ee5a-6342-48b2-b688-7b6caa0c9be9)
 
-**Paso 7:** Iniciar la aplicacion web en el IIS Express.
+**Paso 7:** Agregar la logica para mostrar alertas de resultado de los procesos de Venta.
+```razor
+@section scripts{
+
+    @if (TempData["mensaje"] != null)
+    {
+        <script>
+            Swal.fire({
+                icon: "@(TempData["tipo"]!= null? TempData["tipo"]: "success")",
+                title: "@TempData["mensaje"]",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        </script>
+
+        TempData["mensaje"] = null; // Vaciar memoria
+    }
+}
+```
+
+![image](https://github.com/user-attachments/assets/53462d8f-1ead-4df9-be1a-e08ceeba5b59)
+
+
+**Paso 8:** Iniciar la aplicacion web en el IIS Express.
 
 ![image](https://github.com/user-attachments/assets/6eb19f1c-e99c-4215-bd75-479f6fd1307f)
 
-**Paso 8:** Verificar que funcionen los filtros de la vista **Index** en **VentaController**.
+**Paso 9:** Verificar que funcionen los filtros de la vista **Index** en **VentaController**.
 
 ![image](https://github.com/user-attachments/assets/cbe0c2f8-6920-4b7c-ba00-28d1e70e881a)
 
-**Paso 9:** Detener la aplicacion web
+**Paso 10:** Detener la aplicacion web
 
 ![image](https://github.com/user-attachments/assets/cd85f0e0-8342-47b9-9426-ac8337b0cc59)
 
@@ -499,12 +522,86 @@ function agregarDetalle() {
         Subtotal
     };
     agregarFila(detalle);
+    // Resetear sub formulario
+    document.querySelector("#IdProducto option").selected = true;
     document.querySelector("#Cantidad").value = "";
+    document.querySelector("#IdProducto").onchange();
 }
 ```
 
-![image](https://github.com/user-attachments/assets/ad68dace-517c-4d5c-9794-7f974a694026)
+![image](https://github.com/user-attachments/assets/694142b9-ae52-4d0b-88bc-fb52a7b41f2f)
 
 
 **Resultado Grafico:**
 
+![image](https://github.com/user-attachments/assets/5cb90b52-4f36-449e-b76a-c19388f5eca5)
+
+ **Paso 11:** Agregar el javascript para quitar detalles si es requerido y actualizar el indice del array.
+```razor
+function actualizarIndex() {
+    _index = 0;
+    _total = 0;
+    let filas = document.querySelectorAll("#tbodyDetalles tr");
+    for (var i = 0; i < filas.length; i++) {
+
+        let indexTR = filas[i].getAttribute("data-index");
+        filas[i].innerHTML = filas[i].innerHTML.replaceAll("[" + indexTR + "]", "[" + i + "]");
+
+        filas[i].setAttribute("data-index", i);
+        _index++;
+        // Actualizar Total
+        let subtotal = filas[i].querySelector("input[name='DetallesVenta[" + i + "].Subtotal']").value;
+        _total += parseFloat(subtotal);
+        document.querySelector("#Total").value = _total;
+    }
+}
+
+function quitarDetalle(IdProducto) {
+    let tr = document.querySelector("#trDetalle_" + IdProducto);
+    tr.remove();
+    actualizarIndex();
+}
+```
+
+![image](https://github.com/user-attachments/assets/294194db-1b9a-4601-9dbb-839fc27fe443)
+
+**Resultado Grafico:**
+
+![image](https://github.com/user-attachments/assets/c103f551-6888-4b07-b512-84a952c0ad55)
+
+**Resultado:**
+![image](https://github.com/user-attachments/assets/f41800a4-0c60-4c48-a90a-f9597ae6a8a8)
+
+ **Paso 12:** Agregar codigo razor para agregar los detalle de venta, si la pagina se recarga.
+```razor
+<!-- Permite agregar las filas si se recarga la vista -->
+@if (Model.DetallesVenta != null && Model.DetallesVenta.Count > 0)
+{
+    foreach (var item in Model.DetallesVenta)
+    {
+        <script>
+            // Agregar detalles convertidos en objetos
+            agregarFila( @Html.Raw(Json.Encode(item)) );
+        </script>
+    }
+
+}
+```
+
+![image](https://github.com/user-attachments/assets/b2adf26e-d080-4fb4-9182-f8ed3488adca)
+
+**Paso 13:** Iniciar la aplicacion web en el IIS Express.
+
+![image](https://github.com/user-attachments/assets/6eb19f1c-e99c-4215-bd75-479f6fd1307f)
+
+**Paso 14:** Verificar que funcione el proceso de registro de la accion **Create** en **VentaController**.
+
+![image](https://github.com/user-attachments/assets/47f80229-cd75-4be2-b03d-4b7ab5728e1f)
+
+**Resultado:**
+
+![image](https://github.com/user-attachments/assets/2f1b447f-fad1-4a57-bbbe-3ea274ff1315)
+
+**Paso 15:** Detener la aplicacion web
+
+![image](https://github.com/user-attachments/assets/cd85f0e0-8342-47b9-9426-ac8337b0cc59)
