@@ -152,7 +152,7 @@ GO
 
 **Producto**
 
-![image](https://github.com/user-attachments/assets/cfc52597-5e75-4cfd-9783-2f4947216730)
+![image](https://github.com/user-attachments/assets/b26fb02c-9bcb-4dc7-b286-7181d7267dc8)
 
 **Cliente**
 
