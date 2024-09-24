@@ -293,8 +293,7 @@ public static int Modificar(Venta pVenta)
 
 ### VentaBL
 
-![image](https://github.com/user-attachments/assets/4da2e536-efa3-4173-81d4-313c7b1815d9)
-
+![image](https://github.com/user-attachments/assets/2a86a550-8712-447f-8373-a49b5ba1b491)
 
 # ARCHIVOS
 
