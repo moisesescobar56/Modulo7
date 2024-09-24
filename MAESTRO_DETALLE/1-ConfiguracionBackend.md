@@ -168,22 +168,352 @@ GO
 
 ## PARTE 4 - Programación DAL
 
-**EmpleadoDAL**
+### **EmpleadoDAL**
 
-![devenv_LjfbegSPIs](https://github.com/user-attachments/assets/b4b1d71b-ea9c-48ed-8904-e9d2c0af2b45)
+![image](https://github.com/user-attachments/assets/199c947b-6d88-4228-b7e3-0d8908dc9bb9)
 
-**ClienteDAL**
+### **ClienteDAL**
 
-![devenv_d80SJ3MqeN](https://github.com/user-attachments/assets/1c2d9d54-d81f-4d8d-9556-3e2edd5c04ec)
+![image](https://github.com/user-attachments/assets/a8f8fd96-e92e-4421-97b2-41d3db1591a9)
 
-**ProductoDAL**
+### Categoria DAL
 
-![devenv_afu9zsgzAZ](https://github.com/user-attachments/assets/4ad739b5-15d2-4543-bdf8-f6e2d1842a48)
+![image](https://github.com/user-attachments/assets/e986758b-18eb-4fd3-84bf-06401189b7d7)
 
-**DetalleVentaDAL**
+###**ProductoDAL**
+
+![image](https://github.com/user-attachments/assets/4d2633fb-ebb6-4bf5-ac8e-719e74fc11e0)
+
+### **DetalleVentaDAL**
 
 ```csharp
-        #region Metodos GUARDAR
+#region Metodos GUARDAR
+public static SqlCommand Guardar(DetalleVenta pDetalleVenta, SqlTransaction pTransaccion)
+{
+    SqlCommand comando = ComunDB.ObtenerComando(pTransaccion);
+    comando.CommandText = "SP_InsertarDetalleVenta";
+    comando.CommandType = CommandType.StoredProcedure;
+    comando.Parameters.AddWithValue("@IdVenta", pDetalleVenta.IdVenta);
+    comando.Parameters.AddWithValue("@IdProducto", pDetalleVenta.IdProducto);
+    comando.Parameters.AddWithValue("@Cantidad", pDetalleVenta.Cantidad);
+    comando.Parameters.AddWithValue("@Precio", pDetalleVenta.Precio);
+    comando.Parameters.AddWithValue("@Subtotal", pDetalleVenta.Subtotal);
+    return comando;
+}
+#endregion
+```
+
+![image](https://github.com/user-attachments/assets/4ad75772-303a-436d-afc2-79b3c74ff734)
+
+### VentaDAL
+
+```csharp
+public static int Guardar(Venta pVenta)
+{
+    // Crear transaccion
+    SqlTransaction transaccion = ComunDB.CrearTransaction();
+
+    try
+    {
+	SqlCommand comando = ComunDB.ObtenerComando(transaccion);
+	comando.CommandText = "SP_InsertarVenta";
+	comando.CommandType = CommandType.StoredProcedure;
+	comando.Parameters.AddWithValue("@IdEmpleado", pVenta.IdEmpleado);
+	comando.Parameters.AddWithValue("@IdCliente", pVenta.IdCliente);
+	comando.Parameters.AddWithValue("@Total", pVenta.Total);
+
+	// Guardar Venta y obtener Id de la venta insertada
+	long idVenta = Convert.ToInt64(comando.ExecuteScalar());
+
+	foreach (var detalle in pVenta.DetallesVenta)
+	{
+	    // detalle: representa al producto que se agrego a la venta
+	    detalle.IdVenta = idVenta;
+	    SqlCommand comandoDetalle = DetalleVentaDAL.Guardar(detalle, transaccion);
+
+	    // Confirmar Guardar detalle de la venta
+	    comandoDetalle.ExecuteNonQuery();
+	}
+
+	// Confirmar cambios en la DB
+	transaccion.Commit();
+    }
+    catch (Exception ex)
+    {
+	// Revertir cambios en la DB
+	transaccion.Rollback();
+	return 0;
+    }
+    finally
+    {
+	transaccion.Dispose();
+    }
+
+    // Venta guardada correctamente
+    return 1;
+}
+```
+
+```csharp
+public static int Modificar(Venta pVenta)
+{
+    SqlCommand comando = ComunDB.ObtenerComando();
+    comando.CommandText = "SP_ModificarVenta";
+    comando.CommandType = CommandType.StoredProcedure;
+    comando.Parameters.AddWithValue("@IdVenta", pVenta.IdVenta);
+    comando.Parameters.AddWithValue("@Estatus", pVenta.Estatus);
+    return ComunDB.EjecutarComando(comando);
+}
+```
+
+![image](https://github.com/user-attachments/assets/9f788509-e116-47f2-990c-1d61fd861d6c)
+
+
+## PARTE 5 - Programación BL
+
+### EmpleadoBL
+
+![image](https://github.com/user-attachments/assets/e6953df4-8e26-4ea6-96d9-2322d14a638d)
+
+### ClienteBL
+
+![image](https://github.com/user-attachments/assets/a9b4edd6-a5e4-4d4c-80d4-420f542318fd)
+
+### CategoriaBL
+
+![image](https://github.com/user-attachments/assets/fd628aed-19fa-4974-b977-95ace1cc840a)
+
+### ProductoBL
+
+![image](https://github.com/user-attachments/assets/b8aec25b-8c38-4bd0-9ff2-9f6b08c71e3d)
+
+### DetalleVentaBL
+
+![image](https://github.com/user-attachments/assets/30e1beb4-00fc-47f0-ac34-b7a29cc2fca1)
+
+### VentaBL
+
+![image](https://github.com/user-attachments/assets/4da2e536-efa3-4173-81d4-313c7b1815d9)
+
+
+# ARCHIVOS
+
+## VentaDAL.cs
+```csharp
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+// Referencias
+using System.Data;
+using System.Data.SqlClient;
+// Referencias del proyecto
+using SistemaElParaisal.EN;
+
+namespace SistemaElParaisal.DAL
+{
+    public class VentaDAL
+    {
+        #region Metodos GUARDAR Y MODIFICAR
+        public static int Guardar(Venta pVenta)
+        {
+            // Crear transaccion
+            SqlTransaction transaccion = ComunDB.CrearTransaction();
+
+            try
+            {
+                SqlCommand comando = ComunDB.ObtenerComando(transaccion);
+                comando.CommandText = "SP_InsertarVenta";
+                comando.CommandType = CommandType.StoredProcedure;
+                comando.Parameters.AddWithValue("@IdEmpleado", pVenta.IdEmpleado);
+                comando.Parameters.AddWithValue("@IdCliente", pVenta.IdCliente);
+                comando.Parameters.AddWithValue("@Total", pVenta.Total);
+
+                // Guardar Venta y obtener Id de la venta insertada
+                long idVenta = Convert.ToInt64(comando.ExecuteScalar());
+
+                foreach (var detalle in pVenta.DetallesVenta)
+                {
+                    // detalle: representa al producto que se agrego a la venta
+                    detalle.IdVenta = idVenta;
+                    SqlCommand comandoDetalle = DetalleVentaDAL.Guardar(detalle, transaccion);
+
+                    // Confirmar Guardar detalle de la venta
+                    comandoDetalle.ExecuteNonQuery();
+                }
+
+                // Confirmar cambios en la DB
+                transaccion.Commit();
+            }
+            catch (Exception ex)
+            {
+                // Revertir cambios en la DB
+                transaccion.Rollback();
+                return 0;
+            }
+            finally
+            {
+                transaccion.Dispose();
+            }
+
+            // Venta guardada correctamente
+            return 1;
+        }
+
+        public static int Modificar(Venta pVenta)
+        {
+            SqlCommand comando = ComunDB.ObtenerComando();
+            comando.CommandText = "SP_ModificarVenta";
+            comando.CommandType = CommandType.StoredProcedure;
+            comando.Parameters.AddWithValue("@IdVenta", pVenta.IdVenta);
+            comando.Parameters.AddWithValue("@Estatus", pVenta.Estatus);
+            return ComunDB.EjecutarComando(comando);
+        }
+
+        #endregion
+
+        #region Metodos de Busqueda
+        public static Venta ObtenerPorId(long pIdVenta)
+        {
+            Venta obj = new Venta();
+
+            SqlCommand comando = ComunDB.ObtenerComando();
+            comando.CommandType = CommandType.StoredProcedure;
+            comando.CommandText = "SP_ObtenerVentaPorId";
+            comando.Parameters.AddWithValue("@IdVenta", pIdVenta);
+
+            SqlDataReader reader = ComunDB.EjecutarComandoReader(comando);
+            while (reader.Read())
+            {
+                // Orden de las columnas depende de la Consulta SELECT utilizada
+                obj.IdVenta = reader.GetInt64(0); // Columna [0] cero
+                obj.IdEmpleado = reader.GetInt16(1);  // Columna [1] uno
+                obj.IdCliente = reader.GetInt32(2);  // Columna [2] dos
+                obj.Correlativo = reader.GetInt64(3);  // Columna [3] tres
+                obj.FechaHora = reader.GetDateTime(4);  // Columna [4] cuatro
+                obj.Total = reader.GetDecimal(5);  // Columna [5] cinco
+                obj.Estatus = reader.GetByte(6);  // Columna [6] seis
+            }
+            return obj;
+        }
+
+        public static List<Venta> Buscar(Venta pVenta)
+        {
+            List<Venta> lista = new List<Venta>();
+
+            #region Proceso
+            using (SqlCommand comando = ComunDB.ObtenerComando())
+            {
+                byte contador = 0;
+                string whereSQL = " ";
+                string consulta = @"SELECT TOP 100 v.IdVenta, v.IdEmpleado, v.IdCliente, v.Correlativo, v.FechaHora, v.Total, v.Estatus
+                                    FROM Venta v ";
+
+                // Validar filtros
+                if (pVenta.IdEmpleado > 0)
+                {
+                    if (contador > 0)
+                        whereSQL += " AND ";
+
+                    contador += 1;
+                    whereSQL += " v.IdEmpleado = @IdEmpleado ";
+                    comando.Parameters.AddWithValue("@IdEmpleado", pVenta.IdEmpleado);
+                }
+                if (pVenta.IdCliente > 0)
+                {
+                    if (contador > 0)
+                        whereSQL += " AND ";
+
+                    contador += 1;
+                    whereSQL += " v.IdCliente = @IdCliente ";
+                    comando.Parameters.AddWithValue("@IdCliente", pVenta.IdCliente);
+                }
+                if (pVenta.Correlativo > 0)
+                {
+                    if (contador > 0)
+                        whereSQL += " AND ";
+
+                    contador += 1;
+                    whereSQL += " v.Correlativo = @Correlativo ";
+                    comando.Parameters.AddWithValue("@Correlativo", pVenta.Correlativo);
+                }
+                if (pVenta.FechaHora != null && pVenta.FechaHora != DateTime.MinValue)
+                {
+                    if (contador > 0)
+                        whereSQL += " AND ";
+
+                    contador += 1;
+                    whereSQL += " v.FechaHora BETWEEN @FechaHoraIni AND @FechaHoraFin ";
+
+                    // Agregar parametros para buscar ventas del dia completo 24horas
+                    DateTime fechaHoraIni = pVenta.FechaHora.Date + new TimeSpan(0, 0, 0);
+                    DateTime fechaHoraFin = pVenta.FechaHora.Date + new TimeSpan(23, 59, 59);
+
+                    comando.Parameters.AddWithValue("@FechaHoraIni", fechaHoraIni);
+                    comando.Parameters.AddWithValue("@FechaHoraFin", fechaHoraFin);
+                }
+                if (pVenta.Estatus > 0)
+                {
+                    if (contador > 0)
+                        whereSQL += " AND ";
+
+                    contador += 1;
+                    whereSQL += " v.Estatus = @Estatus ";
+                    comando.Parameters.AddWithValue("@Estatus", pVenta.Estatus);
+                }
+
+                // Agregar filtros
+                if (whereSQL.Trim().Length > 0)
+                {
+                    whereSQL = " WHERE " + whereSQL;
+                }
+                comando.CommandText = consulta + whereSQL;
+
+                SqlDataReader reader = ComunDB.EjecutarComandoReader(comando);
+                while (reader.Read())
+                {
+                    Venta obj = new Venta();
+                    // Orden de las columnas depende de la Consulta SELECT utilizada
+                    obj.IdVenta = reader.GetInt64(0); // Columna [0] cero
+                    obj.IdEmpleado = reader.GetInt16(1);  // Columna [1] uno
+                    obj.IdCliente = reader.GetInt32(2);  // Columna [2] dos
+                    obj.Correlativo = reader.GetInt64(3);  // Columna [3] tres
+                    obj.FechaHora = reader.GetDateTime(4);  // Columna [4] cuatro
+                    obj.Total = reader.GetDecimal(5);  // Columna [5] cinco
+                    obj.Estatus = reader.GetByte(6);  // Columna [6] seis
+                    lista.Add(obj);
+                }
+                comando.Connection.Dispose();
+
+            }
+            #endregion
+
+            return lista;
+        }
+        #endregion
+    }
+}
+```
+
+## DetalleVentaDAL.cs
+```csharp
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+// Referencias
+using System.Data;
+using System.Data.SqlClient;
+// Referencias del proyecto
+using SistemaElParaisal.EN;
+
+namespace SistemaElParaisal.DAL
+{
+    public class DetalleVentaDAL
+    {
+        #region Metodos GUARDAR, MODIFICAR Y ELIMINAR
         public static SqlCommand Guardar(DetalleVenta pDetalleVenta, SqlTransaction pTransaccion)
         {
             SqlCommand comando = ComunDB.ObtenerComando(pTransaccion);
@@ -196,8 +526,227 @@ GO
             comando.Parameters.AddWithValue("@Subtotal", pDetalleVenta.Subtotal);
             return comando;
         }
+
         #endregion
+
+        #region Metodos de Busqueda
+        public static List<DetalleVenta> Buscar(DetalleVenta pDetalleVenta)
+        {
+            List<DetalleVenta> lista = new List<DetalleVenta>();
+
+            #region Proceso
+            using (SqlCommand comando = ComunDB.ObtenerComando())
+            {
+                byte contador = 0;
+                string whereSQL = " ";
+                string consulta = @"SELECT TOP 500 dt.IdDetalleVenta, dt.IdVenta, dt.IdProducto, dt.Cantidad, dt.Precio, dt.Subtotal
+                                    FROM DetalleVenta dt ";
+
+                // Validar filtros
+                if (pDetalleVenta.IdVenta > 0)
+                {
+                    if (contador > 0)
+                        whereSQL += " AND ";
+
+                    contador += 1;
+                    whereSQL += " dt.IdVenta = @IdVenta ";
+                    comando.Parameters.AddWithValue("@IdVenta", pDetalleVenta.IdVenta);
+                }
+                if (pDetalleVenta.IdProducto > 0)
+                {
+                    if (contador > 0)
+                        whereSQL += " AND ";
+
+                    contador += 1;
+                    whereSQL += " dt.IdProducto = @IdProducto ";
+                    comando.Parameters.AddWithValue("@IdProducto", pDetalleVenta.IdProducto);
+                }
+                // Agregar filtros
+                if (whereSQL.Trim().Length > 0)
+                {
+                    whereSQL = " WHERE " + whereSQL;
+                }
+                comando.CommandText = consulta + whereSQL;
+
+                SqlDataReader reader = ComunDB.EjecutarComandoReader(comando);
+                while (reader.Read())
+                {
+                    DetalleVenta obj = new DetalleVenta();
+                    // Orden de las columnas depende de la Consulta SELECT utilizada
+                    obj.IdDetalleVenta = reader.GetInt64(0); // Columna [0] cero
+                    obj.IdVenta = reader.GetInt64(1);  // Columna [1] uno
+                    obj.IdProducto = reader.GetInt32(2);  // Columna [2] dos
+                    obj.Cantidad = reader.GetInt16(3);  // Columna [3] tres
+                    obj.Precio = reader.GetDecimal(4);  // Columna [4] cuatro
+                    obj.Subtotal = reader.GetDecimal(5);  // Columna [5] cinco
+                    lista.Add(obj);
+                }
+                comando.Connection.Dispose();
+
+            }
+            #endregion
+
+            return lista;
+        }
+        #endregion
+    }
+}
 ```
 
-![devenv_O3uAA3z6VF](https://github.com/user-attachments/assets/c1fbd52d-48f4-485d-9233-ecbde90a118b)
+## VentaBL.cs
+```csharp
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+// Referencias del proyecto
+using SistemaElParaisal.EN;
+using SistemaElParaisal.DAL;
 
+namespace SistemaElParaisal.BL
+{
+    public class VentaBL
+    {
+        public int Guardar(Venta pVenta)
+        {
+            return VentaDAL.Guardar(pVenta);
+        }
+
+        public int Anular(Venta pVenta)
+        {
+            pVenta.Estatus = (byte)Venta.EstatusEnum.ANULADA;
+            return VentaDAL.Modificar(pVenta);
+        }
+
+        public Venta ObtenerPorId(long pIdVenta)
+        {
+            return VentaDAL.ObtenerPorId(pIdVenta);
+        }
+
+        public List<Venta> Buscar(Venta pVenta)
+        {
+            return VentaDAL.Buscar(pVenta);
+        }
+
+        public void CargarClienteVirtual(List<Venta> pLista, Action<List<Cliente>> pAccion = null)
+        {
+            // Metodo para cargar los datos de la propiedad virtual de Cliente
+            if (pLista.Count > 0)
+            {
+                // Obtener array de ids de cliente de la lista de ventas
+                int[] arrayIdCliente = pLista.Select(x => x.IdCliente).Distinct().ToArray();
+
+                // Crear Diccionario de Clientes buscando en la base de datos
+                // byte = Tipo de dato de la propiedad "IdCliente" en la clase Cliente
+                // Cliente = Instancia para guardar los datos de la clase Cliente
+                Dictionary<int, Cliente> diccionario = ClienteDAL.ObtenerDiccionario(arrayIdCliente);
+
+                // Bucle para validar los Clientes e inyectarlo a los Ventas en su propiedad virtual
+                foreach (var item in pLista)
+                {
+                    // Verificar si existe el Cliente en el diccionario
+                    if (diccionario.ContainsKey(item.IdCliente) == true)
+                    {
+                        // Si existe, inyectar el Cliente desde el diccionario
+                        item.Cliente = diccionario[item.IdCliente];
+                    }
+                }
+
+                // Accion auxiliar para sobrecargar otra propiedad virtual dentro de la clase Cliente
+                if (pAccion != null && diccionario.Count > 0)
+                {
+                    pAccion(diccionario.Select(x => x.Value).ToList());
+                }
+            }
+        }
+
+        public void CargarEmpleadoVirtual(List<Venta> pLista, Action<List<Empleado>> pAccion = null)
+        {
+            // Metodo para cargar los datos de la propiedad virtual de Empleado
+            if (pLista.Count > 0)
+            {
+                // Obtener array de ids de empleado de la lista de ventas
+                short[] arrayIdEmpleado = pLista.Select(x => x.IdEmpleado).Distinct().ToArray();
+
+                // Crear Diccionario de Empleados buscando en la base de datos
+                // byte = Tipo de dato de la propiedad "IdEmpleado" en la clase Empleado
+                // Empleado = Instancia para guardar los datos de la clase Empleado
+                Dictionary<short, Empleado> diccionario = EmpleadoDAL.ObtenerDiccionario(arrayIdEmpleado);
+
+                // Bucle para validar los Empleados e inyectarlo a los Ventas en su propiedad virtual
+                foreach (var item in pLista)
+                {
+                    // Verificar si existe el Empleado en el diccionario
+                    if (diccionario.ContainsKey(item.IdEmpleado) == true)
+                    {
+                        // Si existe, inyectar el Empleado desde el diccionario
+                        item.Empleado = diccionario[item.IdEmpleado];
+                    }
+                }
+
+                // Accion auxiliar para sobrecargar otra propiedad virtual dentro de la clase Empleado
+                if (pAccion != null && diccionario.Count > 0)
+                {
+                    pAccion(diccionario.Select(x => x.Value).ToList());
+                }
+            }
+        }
+    }
+}
+```
+
+## DetalleVentaBL.cs
+```csharp
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+// Referencias del proyecto
+using SistemaElParaisal.EN;
+using SistemaElParaisal.DAL;
+
+namespace SistemaElParaisal.BL
+{
+    public class DetalleVentaBL
+    {
+        public List<DetalleVenta> Buscar(DetalleVenta pDetalleVenta)
+        {
+            return DetalleVentaDAL.Buscar(pDetalleVenta);
+        }
+
+        public void CargarProductoVirtual(List<DetalleVenta> pLista, Action<List<Producto>> pAccion = null)
+        {
+            // Metodo para cargar los datos de la propiedad virtual de Producto
+            if (pLista.Count > 0)
+            {
+                // Obtener array de ids de Producto de la lista de DetallesVenta
+                int[] arrayIdProducto = pLista.Select(x => x.IdProducto).Distinct().ToArray();
+
+                // Crear Diccionario de Productos buscando en la base de datos
+                // byte = Tipo de dato de la propiedad "IdProducto" en la clase Producto
+                // Producto = Instancia para guardar los datos de la clase Producto
+                Dictionary<int, Producto> diccionario = ProductoDAL.ObtenerDiccionario(arrayIdProducto);
+
+                // Bucle para validar los Productos e inyectarlo a los DetalleVentas en su propiedad virtual
+                foreach (var item in pLista)
+                {
+                    // Verificar si existe el Producto en el diccionario
+                    if (diccionario.ContainsKey(item.IdProducto) == true)
+                    {
+                        // Si existe, inyectar el Producto desde el diccionario
+                        item.Producto = diccionario[item.IdProducto];
+                    }
+                }
+
+                // Accion auxiliar para sobrecargar otra propiedad virtual dentro de la clase Producto
+                if (pAccion != null && diccionario.Count > 0)
+                {
+                    pAccion(diccionario.Select(x => x.Value).ToList());
+                }
+            }
+        }
+    }
+}
+```
