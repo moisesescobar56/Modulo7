@@ -297,6 +297,82 @@ public static int Modificar(Venta pVenta)
 
 # ARCHIVOS
 
+## Venta.cs
+```csharp
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+// Referencias
+using System.ComponentModel.DataAnnotations;
+
+namespace SistemaElParaisal.EN
+{
+    public class Venta
+    {
+        [Display(Name = "Id")]
+        public long IdVenta { get; set; }
+
+        [Display(Name = "Empleado")]
+        public short IdEmpleado { get; set; }
+
+        [Required]
+        [Display(Name = "Cliente")]
+        public int IdCliente { get; set; }
+
+        public long Correlativo { get; set; }
+
+        [Display(Name = "Fecha Hora")]
+        public DateTime FechaHora { get; set; }
+
+        public decimal Total { get; set; }
+
+        public byte Estatus { get; set; }
+
+        public virtual Empleado Empleado { get; set; }
+        public virtual Cliente Cliente { get; set; }
+
+        // Lista de detalles vinculados a la venta
+        public List<DetalleVenta> DetallesVenta { get; set; }
+
+        // Enum para gestionar estatus de la venta
+        public enum EstatusEnum
+        {
+            NINGUNO = 0,
+            FACTURADA = 1,
+            ANULADA = 2
+        }
+    }
+}
+
+```
+
+## DetalleVenta.cs
+```csharp
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SistemaElParaisal.EN
+{
+    public class DetalleVenta
+    {
+        public long IdDetalleVenta { get; set; }
+        public long IdVenta { get; set; }
+        public int IdProducto { get; set; }
+        public decimal Precio { get; set; }
+        public short Cantidad { get; set; }
+        public decimal Subtotal { get; set; }
+
+        public virtual Producto Producto { get; set; }
+    }
+}
+
+```
+
 ## VentaDAL.cs
 ```csharp
 using System;
