@@ -476,15 +476,15 @@ function agregarFila(detalle) {
 - Las listas de forma primitiva siempre seran un ARRAY, por ello el **indice** empieza en 0 y continua aumentando.
 - Para enviar los datos serializados a un controlador, se deben enviar en un input con un name configurado segun la estructura de la propiedad a la que apuntamos.
 - Para serializar una lista se deben enviar los datos de la siguiente forma:
-    - DetallesVenta[0].IdProducto equivale al id del producto del detalle 1.
-    - DetallesVenta[0].Cantidad equivale a la cantidad del producto del detalle 1.
-    - DetallesVenta[0].Precio equivale al precio del producto del detalle 1.
-    - DetallesVenta[0].Subtotal equivale al subtotal del producto del detalle 1.
+    - **DetallesVenta[0].IdProducto** equivale al id del producto del detalle 1.
+    - **DetallesVenta[0].Cantidad** equivale a la cantidad del producto del detalle 1.
+    - **DetallesVenta[0].Precio** equivale al precio del producto del detalle 1.
+    - **DetallesVenta[0].Subtotal** equivale al subtotal del producto del detalle 1.
 - Para serializar un segundo detalle, debemos aumentar el numero del indice:
-    - DetallesVenta[1].IdProducto equivale al id del producto del detalle 2.
-    - DetallesVenta[1].Cantidad equivale a la cantidad del producto del detalle 2.
-    - DetallesVenta[1].Precio equivale al precio del producto del detalle 2.
-    - DetallesVenta[1].Subtotal equivale al subtotal del producto del detalle 2. 
+    - **DetallesVenta[1].IdProducto** equivale al id del producto del detalle 2.
+    - **DetallesVenta[1].Cantidad** equivale a la cantidad del producto del detalle 2.
+    - **DetallesVenta[1].Precio** equivale al precio del producto del detalle 2.
+    - **DetallesVenta[1].Subtotal** equivale al subtotal del producto del detalle 2. 
 
  **Paso 10:** Agregar el javascript para agregar detalles si se completan los datos obligatorios.
 ```razor
